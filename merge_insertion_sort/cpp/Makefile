@@ -2,9 +2,9 @@ CC=		c++
 
 FLAGS=	-Wall -Wextra -Werror -std=c++98 -O3
 
-NAME=	PmergeMe
+NAME=	main
 
-SRCS=	main.cpp PmergeMe.cpp
+SRCS=	main.cpp merge_insertion_sort.cpp
 
 OBJS=	$(SRCS:.cpp=.o)
 

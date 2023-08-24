@@ -1,17 +1,8 @@
 #pragma once
 
-#include <algorithm>
-#include <cmath>
-#include <ctime>
-#include <exception>
-#include <iostream>
-#include <iterator>
-#include <list>
 #include <sstream>
-#include <stdexcept>
 #include <vector>
-#include <limits>
-#include <map>
+#include <iostream>
 
 int string_to_int(const std::string& input);
 

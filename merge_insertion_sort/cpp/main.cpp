@@ -1,4 +1,7 @@
-#include "PmergeMe.hpp"
+#include "merge_insertion_sort.hpp"
+
+#include <algorithm>
+#include <ctime>
 
 static std::vector<int> generate_random_vec(std::size_t size) {
 
