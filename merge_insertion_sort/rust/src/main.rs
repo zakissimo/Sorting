@@ -14,12 +14,12 @@ fn is_sorted(vec: &Vec<i32>) {
 }
 
 fn bs(vec: &Vec<i32>, mut start: usize, mut end: usize, target: i32) -> usize {
-    while end > start {
-        let mid = (start + end) / 2;
-        if vec[mid] > target {
-            end = mid;
-        } else if vec[mid] < target {
+    while start <= end {
+        let mid = (end + start) / 2;
+        if vec[mid] < target && mid < vec.len() {
             start = mid + 1;
+        } else if vec[mid] > target && mid > 0 {
+            end = mid - 1;
         } else {
             return mid;
         }
@@ -54,10 +54,8 @@ fn merge_insertion_sort(vec: &Vec<i32>) -> Vec<i32> {
 
     let mut s: Vec<i32> = Vec::with_capacity(vec.len());
 
+    s.push(max_to_min[&maxs[0]]);
     for i in 0..maxs.len() {
-        if i == 0 {
-            s.push(max_to_min[&maxs[i]]);
-        }
         s.push(maxs[i]);
     }
 
