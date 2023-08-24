@@ -29,10 +29,9 @@ int main(void) {
     double elapsed_time_vec =
         static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000000;
 
-    std::cout << "Time to process a range of " << sorted_vector.size()
-              << " elements with std::vector : "
-              << elapsed_time_vec << " µs"
-              << " (c++98)" << std::endl;
+    std::cout << "Vector of " << sorted_vector.size()
+                << " elements was sorted in " << elapsed_time_vec << " µs"
+                << " (c++98 - Merge Insertion Sort)" << std::endl;
 
     start = clock();
     std::sort(vec_copy.begin(), vec_copy.end());
@@ -41,10 +40,9 @@ int main(void) {
     double elapsed_time_builtin_vec =
         static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000000;
 
-    std::cout << "Time to process a range of " << vec_copy.size()
-              << " elements with std::vector and std::sort() : "
-              << elapsed_time_builtin_vec << " µs"
-              << " (c++98)" << std::endl;
+    std::cout << "Vector of " << sorted_vector.size()
+                << " elements was sorted in " << elapsed_time_builtin_vec << " µs"
+                << " (c++98 - Builtin std::sort())" << std::endl;
 
     return 0;
 }

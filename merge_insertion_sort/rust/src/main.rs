@@ -102,7 +102,7 @@ fn main() {
     let elapsed_time = end_time.duration_since(start_time);
 
     println!(
-        "Vector of {} elements was sorted in {:?} (Merge Insertion Sort)",
+        "Vector of {} elements was sorted in {:?} (Rust - Merge Insertion Sort)",
         vec.len(),
         elapsed_time
     );
@@ -114,7 +114,7 @@ fn main() {
     let elapsed_time = end_time.duration_since(start_time);
 
     println!(
-        "Vector of {} elements was sorted in {:?} (Rust Builtin .sort())",
+        "Vector of {} elements was sorted in {:?} (Rust - Builtin .sort())",
         vec_copy.len(),
         elapsed_time
     );
