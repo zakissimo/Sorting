@@ -1,6 +1,6 @@
-CC=		c++
+CXX=		c++
 
-FLAGS=	-Wall -Wextra -Werror -std=c++98 -O3
+CXXFLAGS=	-Wall -Wextra -Werror -std=c++98 -O3
 
 NAME=	main
 
@@ -9,10 +9,10 @@ SRCS=	main.cpp merge_insertion_sort.cpp
 OBJS=	$(SRCS:.cpp=.o)
 
 %.o: %.cpp
-		$(CC) $(FLAGS) -c $< -o $@
+		$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(NAME):$(OBJS)
-		$(CC) $^ -o $@
+		$(CXX) $^ -o $@
 
 all:	$(NAME)
 
