@@ -16,9 +16,9 @@ fn is_sorted(vec: &Vec<i32>) {
 fn bs(vec: &Vec<i32>, mut start: usize, mut end: usize, target: i32) -> usize {
     while start <= end {
         let mid = (end + start) / 2;
-        if vec[mid] < target && mid < vec.len() {
+        if mid != vec.len() - 1 && vec[mid] < target {
             start = mid + 1;
-        } else if vec[mid] > target && mid > 0 {
+        } else if mid != 0 && vec[mid] > target {
             end = mid - 1;
         } else {
             return mid;
@@ -65,8 +65,8 @@ fn merge_insertion_sort(vec: &Vec<i32>) -> Vec<i32> {
     for (chunk_idx, chunk) in maxs.chunks(n).enumerate() {
         let start_idx = if chunk_idx == 0 { 1 } else { 0 };
         for i in (start_idx..chunk.len()).rev() {
-            let max_pos = bs(&s, i + 1, s.len(), chunk[i]);
-            let idx = bs(&s, 0, max_pos, max_to_min[&chunk[i]]);
+            let max_pos = bs(&s, i + 1, s.len() - 1, chunk[i]);
+            let idx = bs(&s, 0, max_pos - 1, max_to_min[&chunk[i]]);
             s.insert(idx, max_to_min[&chunk[i]]);
         }
         if n < maxs.len() {
@@ -86,7 +86,7 @@ fn merge_insertion_sort(vec: &Vec<i32>) -> Vec<i32> {
 
 fn generate_random_vector(size: usize) -> Vec<i32> {
     let mut rng = rand::thread_rng();
-    (0..size).map(|_| rng.gen_range(1..=1000)).collect()
+    (0..size).map(|_| rng.gen_range(1..=3000)).collect()
 }
 
 fn main() {
