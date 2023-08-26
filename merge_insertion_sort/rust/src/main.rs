@@ -6,8 +6,8 @@ use std::time::Instant;
 
 fn is_sorted(vec: &Vec<i32>) {
     for i in 1..vec.len() {
-        if vec[i - 1] > vec[i] {
-            panic!("Vector is NOT sorted!");
+        if i < vec.len() - 1 && vec[i - 1] > vec[i] {
+            panic!("Vector is NOT sorted! at idx {}", i);
         }
     }
     println!("Vector is sorted!");
