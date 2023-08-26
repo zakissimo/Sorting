@@ -1,2 +1,3 @@
 merge_insertion_sort/rust/target
 merge_insertion_sort/cpp/*.o
+merge_sort/algo
