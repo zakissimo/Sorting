@@ -2,6 +2,7 @@
 
 #include <sstream>
 #include <vector>
+#include <map>
 #include <iostream>
 
 int string_to_int(const std::string& input);
