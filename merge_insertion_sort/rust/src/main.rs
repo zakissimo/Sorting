@@ -2,6 +2,7 @@
 
 use rand::Rng;
 use std::collections::HashMap;
+use std::env;
 use std::time::Instant;
 
 fn is_sorted(vec: &Vec<i32>) {
@@ -90,7 +91,18 @@ fn generate_random_vector(size: usize) -> Vec<i32> {
 }
 
 fn main() {
-    let mut vec = generate_random_vector(3000);
+    let args: Vec<String> = env::args().collect();
+
+    let mut vec;
+    vec = if args.len() == 1 {
+        generate_random_vector(3000)
+    } else {
+        args[1..]
+            .iter()
+            .map(|s| s.parse::<i32>())
+            .collect::<Result<Vec<i32>, _>>()
+            .expect("Input to be i32 seq")
+    };
     let mut vec_copy = vec.clone();
 
     let start_time = Instant::now();
@@ -103,7 +115,7 @@ fn main() {
 
     println!(
         "Vector of {} elements was sorted in {:?} (Rust - Merge Insertion Sort)",
-        vec.len(),
+        _sorted_vec.len(),
         elapsed_time
     );
 
