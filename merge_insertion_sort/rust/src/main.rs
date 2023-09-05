@@ -1,7 +1,7 @@
 // https://en.wikipedia.org/wiki/Merge-insertion_sort
 
 use rand::Rng;
-use std::collections::HashMap;
+use std::collections::{HashMap, VecDeque};
 use std::env;
 use std::time::Instant;
 
@@ -17,7 +17,7 @@ fn is_sorted(vec: &Vec<i32>) {
 fn bs(vec: &Vec<i32>, mut start: usize, mut end: usize, target: i32) -> usize {
     while start <= end {
         let mid = (end + start) / 2;
-        if mid != vec.len() - 1 && vec[mid] < target {
+        if vec[mid] < target {
             start = mid + 1;
         } else if mid != 0 && vec[mid] > target {
             end = mid - 1;
@@ -39,14 +39,17 @@ fn merge_insertion_sort(vec: &Vec<i32>) -> Vec<i32> {
 
     let left_over = vec.last().filter(|_| vec.len() % 2 != 0);
 
-    let mut max_to_min: HashMap<i32, i32> = HashMap::with_capacity(vec.len() / 2);
+    let mut max_to_min: HashMap<i32, VecDeque<i32>> = HashMap::with_capacity(vec.len() / 2);
     let mut maxs: Vec<i32> = Vec::with_capacity(vec.len() / 2);
 
     for pair in vec.chunks(2) {
         if pair.len() == 2 {
             let min = pair[0].min(pair[1]);
             let max = pair[0].max(pair[1]);
-            max_to_min.insert(max, min);
+            max_to_min
+                .entry(max)
+                .or_insert(VecDeque::new())
+                .push_back(min);
             maxs.push(max);
         }
     }
@@ -55,7 +58,13 @@ fn merge_insertion_sort(vec: &Vec<i32>) -> Vec<i32> {
 
     let mut s: Vec<i32> = Vec::with_capacity(vec.len());
 
-    s.push(max_to_min[&maxs[0]]);
+    s.push(
+        max_to_min
+            .get_mut(&maxs[0])
+            .expect("Key should be in map")
+            .pop_front()
+            .expect("Deque shouldn't be empty"),
+    );
     for i in 0..maxs.len() {
         s.push(maxs[i]);
     }
@@ -67,8 +76,13 @@ fn merge_insertion_sort(vec: &Vec<i32>) -> Vec<i32> {
         let start_idx = if chunk_idx == 0 { 1 } else { 0 };
         for i in (start_idx..chunk.len()).rev() {
             let max_pos = bs(&s, i + 1, s.len() - 1, chunk[i]);
-            let idx = bs(&s, 0, max_pos - 1, max_to_min[&chunk[i]]);
-            s.insert(idx, max_to_min[&chunk[i]]);
+            let min = max_to_min
+                .get_mut(&chunk[i])
+                .expect("Key should be in map")
+                .pop_front()
+                .expect("Deque shouldn't be empty");
+            let idx = bs(&s, 0, max_pos - 1, min);
+            s.insert(idx, min);
         }
         if n < maxs.len() {
             let tmp = n;
@@ -96,6 +110,12 @@ fn main() {
     let mut vec;
     vec = if args.len() == 1 {
         generate_random_vector(3000)
+    } else if args.len() == 2 {
+        args[1]
+            .split_whitespace()
+            .map(|s| s.parse::<i32>())
+            .collect::<Result<Vec<i32>, _>>()
+            .expect("Input to be i32 seq")
     } else {
         args[1..]
             .iter()
