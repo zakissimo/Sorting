@@ -38,7 +38,7 @@ std::vector<int> sort_vec(std::vector<int>& vec) {
 
     // Getting max and pairs arrays
     std::vector<int> max;
-    std::vector<std::deque<int> > max_to_min(3001);
+    std::map<int, std::deque<int> > max_to_min;
     for (size_t i = 0; i < vec.size() - 1; i += 2) {
 
         if (vec[i] > vec[i + 1]) {
