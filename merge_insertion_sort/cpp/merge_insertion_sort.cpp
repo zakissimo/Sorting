@@ -1,5 +1,6 @@
 #include "merge_insertion_sort.hpp"
 #include <deque>
+#include <list>
 
 int string_to_int(const std::string& str) {
 
@@ -38,7 +39,7 @@ std::vector<int> sort_vec(std::vector<int>& vec) {
 
     // Getting max and pairs arrays
     std::vector<int> max;
-    std::map<int, std::deque<int> > max_to_min;
+    std::map<int, std::list<int> > max_to_min;
     for (size_t i = 0; i < vec.size() - 1; i += 2) {
 
         if (vec[i] > vec[i + 1]) {
@@ -62,7 +63,7 @@ std::vector<int> sort_vec(std::vector<int>& vec) {
 
     std::vector<int> S;
     // Pushing first pair in new vector and max of the rest
-    int first_min = max_to_min[vec[0]][0];
+    int first_min = max_to_min[vec[0]].front();
     max_to_min[vec[0]].pop_front();
     S.push_back(first_min);
     for (size_t i = 0; i < vec.size(); i++) {
@@ -81,7 +82,7 @@ std::vector<int> sort_vec(std::vector<int>& vec) {
         for (size_t j = i + n - 1; j >= i; j--) {
             if (j < vec.size()) {
                 int max_pos = bs_vec(S, j + 1, S.size(), vec[j]);
-                int min = max_to_min[vec[j]][0];
+                int min = max_to_min[vec[j]].front();
                 max_to_min[vec[j]].pop_front();
                 int pos = bs_vec(S, 0, max_pos, min);
                 S.insert(S.begin() + pos, min);
