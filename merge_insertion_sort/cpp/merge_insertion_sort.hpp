@@ -3,7 +3,10 @@
 #include <sstream>
 #include <vector>
 #include <map>
+#include <list>
 #include <iostream>
+#include <algorithm>
+#include <ctime>
 
 int string_to_int(const std::string& input);
 
