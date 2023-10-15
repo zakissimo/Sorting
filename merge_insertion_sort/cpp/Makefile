@@ -1,6 +1,6 @@
 CXX=		c++
 
-CXXFLAGS=	-Wall -Wextra -std=c++98 -O3
+CXXFLAGS=	-Wall -Wextra -O3
 
 NAME=	main
 

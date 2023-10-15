@@ -1,4 +1,5 @@
 #include "merge_insertion_sort.hpp"
+#include <unordered_map>
 
 int string_to_int(const std::string& str) {
 
@@ -26,17 +27,6 @@ int bs_vec(std::vector<int>& vec, int start, int end, const int& target) {
     return start;
 }
 
-int find_max(std::vector<std::pair<int, int> >& pairs, int start, int end,
-             const int& target) {
-
-    for (size_t i = 0; i < pairs.size(); i++) {
-        if (pairs[i].first == target) {
-            return i;
-        }
-    }
-    throw std::runtime_error("Error: Didn't find target max");
-}
-
 std::vector<int> sort_vec(std::vector<int>& vec) {
 
     // Base case
@@ -46,14 +36,15 @@ std::vector<int> sort_vec(std::vector<int>& vec) {
 
     // Getting max and pairs arrays
     std::vector<int> max;
-    std::vector<std::pair<int, int> > pairs;
+    std::unordered_map<int, int> max_to_min;
+
     for (size_t i = 0; i < vec.size() - 1; i += 2) {
 
         if (vec[i] > vec[i + 1]) {
-            pairs.push_back(std::make_pair(vec[i], vec[i + 1]));
+            max_to_min[vec[i]] = vec[i + 1];
             max.push_back(vec[i]);
         } else {
-            pairs.push_back(std::make_pair(vec[i + 1], vec[i]));
+            max_to_min[vec[i + 1]] = vec[i];
             max.push_back(vec[i + 1]);
         }
     }
@@ -70,14 +61,12 @@ std::vector<int> sort_vec(std::vector<int>& vec) {
 
     std::vector<int> S = vec;
     // Pushing first pair in new vector and max of the rest
-    size_t min_pos = find_max(pairs, 0, pairs.size() - 1, vec[0]);
-    S.insert(S.begin(), pairs[min_pos].second);
-    pairs.erase(pairs.begin() + min_pos);
+    S.insert(S.begin(), max_to_min[S[0]]);
 
     // Initialize jacobstahl sequence
     size_t p = 0;
     size_t n = 2;
-    size_t tmp, min, max_pos;
+    size_t tmp;
 
     // Extracting min of all pairs (except first one) in new vector
     // Grouping them in jacobstahl sequence
@@ -86,11 +75,7 @@ std::vector<int> sort_vec(std::vector<int>& vec) {
         for (size_t j = i + n - 1; j >= i; j--) {
             if (j >= vec.size())
                 continue;
-            min_pos = find_max(pairs, 0, pairs.size() - 1, vec[j]);
-            min = pairs[min_pos].second;
-            max_pos = bs_vec(S, 0, bs_vec(S, j + 1, S.size(), vec[j]), min);
-            S.insert(S.begin() + max_pos, min);
-            pairs.erase(pairs.begin() + min_pos);
+            S.insert(S.begin() + bs_vec(S, 0, bs_vec(S, j + 1, S.size(), vec[j]), max_to_min[vec[j]]), max_to_min[vec[j]]);
         }
         i += n;
         tmp = n;
