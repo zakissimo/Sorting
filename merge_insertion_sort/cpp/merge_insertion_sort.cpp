@@ -35,18 +35,17 @@ std::vector<int> sort_vec(std::vector<int>& vec) {
     }
 
     // Getting max and pairs arrays
-    std::vector<int> max;
+    std::vector<int> maxs;
     std::unordered_map<int, int> max_to_min;
 
     for (size_t i = 0; i < vec.size() - 1; i += 2) {
 
-        if (vec[i] > vec[i + 1]) {
-            max_to_min[vec[i]] = vec[i + 1];
-            max.push_back(vec[i]);
-        } else {
-            max_to_min[vec[i + 1]] = vec[i];
-            max.push_back(vec[i + 1]);
-        }
+        const int *max = &std::max(vec[i], vec[i + 1]);
+        const int *min = &std::min(vec[i], vec[i + 1]);
+
+        max_to_min[*max] = *min;
+        maxs.push_back(*max);
+
     }
 
     int* leftover = NULL;
@@ -57,7 +56,7 @@ std::vector<int> sort_vec(std::vector<int>& vec) {
     }
 
     // Sorting max array recursively
-    vec = sort_vec(max);
+    vec = sort_vec(maxs);
 
     std::vector<int> S = vec;
     // Pushing first pair in new vector and max of the rest
