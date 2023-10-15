@@ -26,7 +26,7 @@ int bs_vec(std::vector<int>& vec, int start, int end, const int& target) {
     return start;
 }
 
-int find_max_in_pairs(std::vector<std::pair<int, int> >& pairs, int start, int end,
+int find_max(std::vector<std::pair<int, int> >& pairs, int start, int end,
              const int& target) {
 
     for (size_t i = 0; i < pairs.size(); i++) {
@@ -34,7 +34,7 @@ int find_max_in_pairs(std::vector<std::pair<int, int> >& pairs, int start, int e
             return i;
         }
     }
-    throw std::runtime_error("Error: bs_pairs didn't find target max");
+    throw std::runtime_error("Error: Didn't find target max");
 }
 
 std::vector<int> sort_vec(std::vector<int>& vec) {
@@ -70,7 +70,7 @@ std::vector<int> sort_vec(std::vector<int>& vec) {
 
     std::vector<int> S = vec;
     // Pushing first pair in new vector and max of the rest
-    size_t min_pos = find_max_in_pairs(pairs, 0, pairs.size() - 1, vec[0]);
+    size_t min_pos = find_max(pairs, 0, pairs.size() - 1, vec[0]);
     S.insert(S.begin(), pairs[min_pos].second);
     pairs.erase(pairs.begin() + min_pos);
 
@@ -86,7 +86,7 @@ std::vector<int> sort_vec(std::vector<int>& vec) {
         for (size_t j = i + n - 1; j >= i; j--) {
             if (j >= vec.size())
                 continue;
-            min_pos = find_max_in_pairs(pairs, 0, pairs.size() - 1, vec[j]);
+            min_pos = find_max(pairs, 0, pairs.size() - 1, vec[j]);
             min = pairs[min_pos].second;
             max_pos = bs_vec(S, 0, bs_vec(S, j + 1, S.size(), vec[j]), min);
             S.insert(S.begin() + max_pos, min);
