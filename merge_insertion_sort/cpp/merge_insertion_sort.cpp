@@ -1,4 +1,5 @@
 #include "merge_insertion_sort.hpp"
+#include <cstdint>
 
 int string_to_int(const std::string& str) {
 
@@ -37,8 +38,7 @@ int find_max(std::vector<std::pair<int, int> >& pairs, int start, int end,
     throw std::runtime_error("Error: Didn't find target max");
 }
 
-std::vector<int> sort_vec(std::vector<int>& vec) {
-
+std::vector<uint64_t> rec_sort(std::vector<uint64_t> vec) {
     // Base case
     if (vec.size() == 1) {
         return vec;
@@ -103,4 +103,28 @@ std::vector<int> sort_vec(std::vector<int>& vec) {
     }
 
     return S;
+}
+
+std::vector<int> sort_vec(std::vector<int>& vec) {
+
+    if (vec.size() == 1) {
+        return vec;
+    }
+
+    std::vector<uint64_t> v;
+    for (size_t i = 0; i < vec.size() - 1; i += 2) {
+
+        if (vec[i] > vec[i + 1]) {
+        } else {
+        }
+    }
+
+    int* leftover = NULL;
+    // If there is an odd number of elements, save the last one
+    if (vec.size() % 2 == 1) {
+        leftover = &vec[vec.size() - 1];
+    }
+
+    v = rec_sort(v);
+
 }
